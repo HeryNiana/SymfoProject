@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title %}Exportation recette par chambre{% endblock %}
+{% block body %}
+<h3 style="font-family:Consolas,Stencil;color:#74D0F1;text-align: center;">HOTEL Moringa Tuléar</h3>
+<h5 style="font-family:Consolas,Stencil;color:#303030;text-align: center;">
+    <strong>Email : moringa@lerelais.mg - Télephone : 032 12 511 00 </strong>
+</h5>
+<p style="font-family:Consolas,Stencil;color:#303030;text-align: center;text-decoration: underline;">
+    <strong>  Liste de tous les hébergements</strong>
+</p>
+    <table style="width: 100%;text-align:center; border-collapse: collapse;" border="1">
+        <thead>
+            <tr>
+                <th>Noms clients</th>
+                <th>Adresse</th>
+                <th>Télephone</th>
+                <th>Nationalité</th>
+                <th>Code chambre</th>
+                <th>Prix journalier</th>
+                <th>Date de début</th>
+                <th>Date de sortie</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for heberge in heberges %}
+            <tr>
+                <td>{{ heberge.nom }} <br> {{ heberge.prenom }}</td>
+                <td>{{ heberge.adresse }} </td>
+                <td>{{ heberge.telephone }} </td>
+                <td>{{ heberge.national }} </td>
+                <td>
+                    {{ heberge.codech }}
+                </td>
+                    <td>{{ heberge.prixjournalier }} </td>
+                    <td>{{ heberge.dateentre | date('d m Y H:i:s')}} </td>
+                    <td>{{ heberge.datesortie | date('d m Y H:i:s') }} </td>
+                    <td>{{ heberge.montant }} Ar </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="8">Montant total :</td>
+                <td>{{ okay | number_format(0, ',', ' ') }} Ar</td>
+            </tr>
+</table>
+<p>Arrêté à la somme de :<strong>  {{ word }} Ariary</strong> </p>
+<p>Nombre d'hébergement : <strong>{{ hebergenumber }}</strong></p>
+{% for national in numbernationals %}
+<p>{{ national.national }} :<strong>  {{ national.numbernational }}</strong> </p>
+{% endfor %}
+{% endblock %}

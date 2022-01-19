@@ -1,0 +1,202 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+{% if app.user %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+        <h2 id="plus" style="font-style: italic;font-family: Verdana, Geneva, Tahoma, sans-serif;"><strong>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chambres, femme des chambres et les heures du ménage </strong>
+        </h2>
+       </div>
+        <div class="x_content">
+             <!-- /pour definir l'heure  -->
+           <div class="modal fade" id="modifficationModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title"><strong>Heure de ménage :Matin entre 09h et 11h et aprés midi de 14h à 16h</strong></h4>
+                  </div>
+                  <div class="modal-body">
+                      <form name="userForm" class="form-horizontal" method="get" action="">
+                         <input type="hidden" name="post_id" id="post_id">
+                          <div class="form-group">
+                              <label for="name" >Heure de menage :</label>
+                              <div class="col-sm-12">
+                                  <input type="time" class="form-control" id="passWord" name="passWord"   required="required">
+                                  <span id="passWordError" class="alert-message"></span>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-info" onclick="modifUtilisateur()">Definir</button>
+                  </div>
+              </div>
+            </div>
+          </div><!--end of modal-->
+        </div>
+    </div>
+     <div class="row" style="clear: both;margin-top: 18px;">
+        <div class="col-12">
+          <table id="okay" class="table table-striped table-bordered" style="width:100%;text-align: center;">
+            <thead>
+                <tr>
+                    <th>Code chambre</th>
+                    <th>Photo de la chambre</th>
+                    <th>Nom de la femme de chambre</th>
+                    <th>Heure du ménage</th>
+                    <th>Ménage d'aujourd'hui</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for menage in menages %}
+                <tr id="row_{{ menage.id }}">
+                    <td>{{ menage.codech }}</td>
+                    <td><img src="{{ asset('/uploads/'~menage.photo) }}" alt="" width="130"/></td>
+                    <td>{{ menage.nom }}  {{ menage.prenom }}</td>
+                    <td>
+                        {{ menage.HeureMenage  }}
+                    </td> 
+                    <td>{% if menage.stateMenage=="false" %}
+                        <a href="javascript:void(0)" data-id="{{ menage.id }}" data-toggle="tooltip"  data-placement="top" title="c'est fait" onclick="updateState(event.target)" class="btn btn-danger"><span class="fa fa-times-circle"></span></a>
+                        {% else %}
+                        <a href="javascript:void(0)" style="cursor: none;" class="btn btn-primary"><span class="fa fa-check-circle"></span></a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" data-id="{{ menage.id }}" data-toggle="tooltip"  data-placement="top" title="Modifier l'heure du ménage" onclick="editPost(event.target)" class="btn btn-info"><span class="fa fa-pencil-square-o"></span></a>
+                    </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+       </div>
+    </div>
+    </div>
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+<script>
+    //modification heure
+    function modifUtilisateur() {
+    var id = $('#post_id').val();
+    var adresse = $('#passWord').val();
+    var minute=parseInt(adresse.slice(3,5));
+    var adress=adresse.slice(0,-3);
+    var heure=parseInt(adress);
+    if(minute>0 && heure >0)
+    {
+    if((heure<9))
+    {
+         alert("L'heure que vous avez défini est trop tôt, veuillez-définir à nouveau")
+    }else if(heure==11 && minute>0){
+        alert("midi loatsi")
+    } 
+    else if((heure>16))
+    {
+      alert("L'heure que vous avez défini est invalide, veuillez-définir à nouveau")
+    }
+    else
+    {
+        if(heure>11)
+        {
+            if(heure<14){
+                alert("L'heure que vous avez défini est invalide, veuillez-définir à nouveau")
+            }else if(heure==16 && minute>0){
+                alert("hariva loatsi")
+            }
+            else{
+                let _url   = `miseajourheure`;
+                 $.ajax({
+                 url: _url,
+                 type: "POST",
+                 data: {
+                   id : id,
+                   adresse : adresse
+                 },
+                 async: true,
+                 success: function(data)
+                  {
+                     if(data.code == 200)
+                      {
+                         $("#row_"+id+" td:nth-child(4)").html( adresse); 
+                         $('#passWord').val('');
+                         $('#modifficationModal').modal('hide');
+                         console.log(minute);
+                      }
+                   }
+                });
+            }
+        }else
+        {
+            let _url   = `miseajourheureindex`;
+            $.ajax({
+            url: _url,
+            type: "POST",
+            data: {
+              id : id,
+              adresse : adresse
+            },
+            async: true,
+            success: function(data)
+             {
+                if(data.code == 200)
+                 {
+                    $("#row_"+id+" td:nth-child(4)").html( adresse); 
+                    $('#passWord').val('');
+                    $('#modifficationModal').modal('hide');
+                 }
+              }
+          });
+    }
+    }
+  } else{
+        alert('Veuillez verifier l\'heure que vous avez entrée ')
+  }
+ }
+  //editer une valeur
+  function editPost(event) {
+    var id  = $(event).data("id");
+    let _url = `/chambre/${id}/editer`;
+    $('#passWordError').text('');
+    // alert(_url);
+    $.ajax({
+      url: _url,
+      type: "GET",
+      success: function(data) {
+          if(data.code==200) {
+            $("#post_id").val(data.client.id);
+            $("#modifficationModal").modal("show");
+          }
+      }
+    });
+  }
+
+  function updateState(event) {
+    var id  = $(event).data("id");
+    if(id>0){
+    let confirmDelete= confirm('Etes-vous sûre que cette chambre est déjà menagée');
+    if (confirmDelete==true)
+    {
+        var adresse='<a href="javascript:void(0)" style="cursor: none;" class="btn btn-primary"><span class="fa fa-check-circle"></span></a>';
+    let _url = `/femme_chambre/${id}/editestate`;
+    $.ajax({
+      url: _url,
+      type: "GET",
+      success: function(data) {
+          if(data.code==200) {
+            $("#row_"+id+" td:nth-child(5)").html( adresse); 
+          }
+      }
+    });  
+    }
+  }
+}
+  
+  </script>
+  {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+<div class="x_content">
+    <br />
+    <div class="row">
+    <form class="form-label-left input_mask"  method="POST" action="{{ path('editprofileone') }}">
+    <div class="col-md-6 col-sm-6  form-group has-feedback">
+        <input type="text" name="new_name"  class="form-control has-feedback-left" id="inputSuccess2" value="{{ app.user.username }}" placeholder="{{ app.user.username }}">
+        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+      </div>
+      <div class="col-md-6 col-sm-6  form-group has-feedback">
+        <input type="text" name="new_email"  class="form-control has-feedback-left" id="inputSuccess4"  value="{{ app.user.email }}"  placeholder="{{ app.user.email }}">
+        <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+      </div>
+      <div class="col-md-6 col-sm-6  form-group has-feedback">
+      <input type="submit"  value="Modifier" class="btn btn-info">
+    </div>
+    </form>        
+</div>
+</div>
+{% endblock %}

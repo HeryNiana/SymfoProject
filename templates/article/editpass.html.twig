@@ -1,0 +1,73 @@
+{% extends 'article/home.html.twig' %}
+{% block title %}Gestion d'hébergement{% endblock %}
+{% block body %}
+{% for message in app.flashes('message') %}
+{{ message }}
+{% endfor %}
+<div class="x_content">
+    <h2 style="color:black;text-decoration: underline;">Modification du mot de passe : </h2>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-5">
+            <form method="POST" action="{{ path('editpasswordnew') }}" >
+                <label><strong>Mot de passe actuel</strong></label><br>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                    <input type="password" id="name" name="old_pass" class="form-control" placeholder="Saissisez votre mot de passe actuel" required><br>
+                </div>
+                <label><strong>Nouveau mot de passe</strong></label><br>
+                <div class="input-group">
+                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                     <input type="password" id="password" name="password" class="form-control" placeholder="nouveau mot de passe" required>
+               </div>       
+                <label for="">
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <input type="checkbox" id="affichage" name="checkbox">
+                 Afficher 
+                </label><br>
+                 <label><strong>Retaper le nouveau mot de passe</strong></label><br>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                    <input type="password" id="password1" name="password1" class="form-control" placeholder="confirmation du nouveau mot de passe" required>
+               </div>
+                <label for="">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="affichage1" name="checkbox">
+                    Afficher
+                </label><hr>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="Modifier" class="btn btn-info">
+             </form>
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+$(document).ready(function(){
+    var password=$("#password");
+var affichage=$("#affichage");
+affichage.click(function(){
+
+    if(affichage.prop("checked"))
+    {
+        password.attr("type","text");
+    } else {
+        password.attr("type","password");
+    }
+});
+
+ var password1=$("#password1");
+var affichage1=$("#affichage1");
+affichage1.click(function(){
+
+    if(affichage1.prop("checked"))
+    {
+        password1.attr("type","text");
+    } else {
+        password1.attr("type","password");
+    }
+  });
+});
+</script>
+{% endblock %}

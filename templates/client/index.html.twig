@@ -1,0 +1,408 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+         <h2 id="plus" style="font-style: italic;font-family: Verdana, Geneva, Tahoma, sans-serif;"><strong>LISTE DES CLIENTS</strong></h2>
+          <button class="btn btn-success" id="Addshow" onclick="okayokay()" style="margin-left: 35%;"><i class="fa fa-plus-circle"></i>&nbsp;Nouveau client </button>
+         <div class="clearfix"></div>
+       </div>
+        <div class="x_content">
+           <div class="modal fade" id="formAdd" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ajouter un nouveau client client</h4>
+                  </div>
+                  <div class="modal-body">
+              <p style="text-align: center;"><span style="color: red;"> (*) </span>obligatoire</p>
+              <form method="post" action="" id="okay1">
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Nom du client :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="text" autocomplete="off" class="form-control" name="userNameA" id="userNameA" required="required">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Prénoms :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="text" autocomplete="off" class="form-control" name="prenom" id="prenom" required="required">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Adresse :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                    <input type="text" autocomplete="on"  class="form-control" name="adresse" id="adresse" required="required">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Age :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-font"></i></span>
+                    <input type="text" class="form-control" data-inputmask="'mask' : '99'" name="age" id="age" required="required">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Sexe :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                    <select  class="form-control" name="sexe" id="sexe" required="required">
+                      <option></option>
+                      <option value="femme">Femme</option>
+                      <option value="homme">Homme</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Civilité :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-star-half-empty"></i></span>
+                    <input type="text" class="form-control" name="civil" id="civil" required="required" >
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Télpehone :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                    <input type="text" class="form-control" data-inputmask="'mask' : '(999) 999-9999'" name="phone" id="phone">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Nationalité :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-cc-visa"></i></span>
+                    <input type="text" class="form-control" name="national" id="national" required="required" autocomplete="on">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Catégorie :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-tumblr"></i></span>
+                    <select class="form-control" name="categorie" id="categorie">
+                      <option value="Temporaire">Temporaire</option>
+                      <option value="Abonné">Fidèle</option>
+                      </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+              <div class="modal-footer">
+                  <button type="button" onclick="ajoutUtilisateur()" class="btn btn-primary">Ajouter</button>
+                  <button type="button" class="btn btn-danger" onclick="cancel_add()">Annuler</button>
+                </div>
+              </div>
+              </div>
+          </div>
+                   <!-- /pour la modification  -->
+           <div class="modal fade" id="modifficationModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Modification d'un client client</h4>
+                  </div>
+                  <div class="modal-body">
+                      <form name="userForm" class="form-horizontal" method="get" action="">
+                         <input type="hidden" name="post_id" id="post_id">
+                         <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Nom du client : <span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input type="text" autocomplete="off" class="form-control" name="userNameA1" id="userNameA1" required="required">
+                            <span id="userNameError" class="alert-message"></span>
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Prénoms :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input type="text" autocomplete="off" class="form-control" name="prenom1" id="prenom1" required="required">
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Adresse :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                            <input type="text"  class="form-control" name="adresse1" id="adresse1" required="required">
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Age :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-font"></i></span>
+                            <input type="text" class="form-control" data-inputmask="'mask' : '99'" name="age1" id="age1" required="required">
+                            <span class="fa fa-eye form-control-feedback right" aria-hidden="true"></span>
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Sexe :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                            <select  class="form-control" name="sexe1" id="sexe1" required="required">
+                              <option value="femme">Femme</option>
+                              <option value="homme">Homme</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Civilité :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-star-half-empty"></i></span>
+                            <input type="text" class="form-control" name="civil1" id="civil1" required="required">
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Télpehone :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                            <input type="text" class="form-control" data-inputmask="'mask' : '(999) 999-9999'" name="phone1" id="phone1">
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Nationalité :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6 input-group">
+                            <span class="input-group-addon"><i class="fa fa-cc-visa"></i></span>
+                            <input type="text" class="form-control" name="national1" id="national1" required="required">
+                          </div>
+                        </div>
+                        <div class="field item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3  label-align">Catégorie :<span style="color: red;"> *</span></label>
+                          <div class="form-group col-md-6 col-sm-6  input-group">
+                            <span class="input-group-addon"><i class="fa fa-tumblr"></i></span>
+                            <select class="form-control" name="categorie1" id="categorie1">
+                              <option value="temporaire">Temporaire</option>
+                              <option value="abonne">Fidèle</option>
+                              </select>
+                          </div>
+                        </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-info" onclick="modifUtilisateur()">Mettre à jour</button>
+                      <!-- <button type="submit" class="btn btn-primary">Enregistrer</button> -->
+                  </div>
+              </div>
+            </div>
+          </div><!--end of modal-->
+        </div>
+    </div>
+     <div class="row" style="clear: both;margin-top: 18px;">
+        <div class="col-12">
+          <table id="okay" class="table table-striped table-bordered" style="width:100%;text-align: center;">
+            <thead>
+                <tr>
+                    <th>Noms </th>
+                    <th>Prénoms</th>
+                    <th>Adresse</th>
+                    <th>Age</th>
+                    <th>Sexe</th>
+                    <th>Etat-civil</th>
+                    <th>Télephone</th>
+                    <th>Nationalité</th>
+                    <th>Catégorie</th>
+                    <th>Actions</th>
+                    <th>Plus</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for client in clients %}
+                <tr id="row_{{ client.id }}">
+                    <td><strong>{{ client.nom }} </strong></td>
+                    <td><strong>{{ client.prenom }} </strong></td>
+                    <td><strong>{{ client.adresse }} </strong></td>
+                    <td><strong>{{ client.age }} </strong></td>
+                    <td><strong>{{ client.sexe }} </strong></td>
+                    <td><strong>{{ client.civil }} </strong></td>
+                    <td><strong>{{ client.telephone }} </strong></td>
+                    <td><strong>{{ client.national }} </strong></td>
+                    <td><strong>
+                      {{ client.categorie }}                  
+                     </strong></td>
+                    <td><strong>
+                      <a href="javascript:void(0)" data-id="{{ client.id }}" onclick="editPost(event.target)" class="btn btn-info"><span class="fa fa-pencil-square-o"></span></a>
+                      <a href="javascript:void(0)" data-id="{{ client.id }}" onclick="deletePost(event.target)" class="btn btn-danger"><span class="fa fa-trash"></span></a>
+                     </strong></td>
+                    <td><strong><a data-toggle="tooltip"  data-placement="top" title="Séjour" class="btn btn-success" href="{{ path('clientheberge', {'id': client.id}) }}"><span class="fa fa-plus"></span></a> </strong></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11">Pas de données trouvé </strong></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+       </div>
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+  function okayokay(){
+    return $("#formAdd").modal("show");
+  }
+  function cancel_add(){
+    return $("#formAdd").modal("hide");
+    $('#okay1')[0].reset();
+  }
+   //editer une valeur
+   function editPost(event) {
+    let id  = $(event).data("id");
+    let _url = `/client/${id}/edit`;
+    $('#userNameError').text('');
+    //$('#passWordError').text('');
+    // alert(_url);
+    $.ajax({
+      url: _url,
+      type: "GET",
+      success: function(data) {
+          if(data.code==200) {
+            $("#post_id").val(data.client.id);
+            $("#userNameA1").val(data.client.nom);
+            $("#prenom1").val(data.client.prenom);
+            $("#adresse1").val(data.client.adresse);
+            $("#age1").val(data.client.age);
+            $("#sexe1").val(data.client.sexe);
+            $("#civil1").val(data.client.civil);
+            $("#phone1").val(data.client.phone);
+            $("#national1").val(data.client.national);
+            $("#categorie1").val(data.client.categorie);
+            $("#modifficationModal").modal("show");
+          }
+      }
+    });
+  }
+  //modification d'un client
+  function modifUtilisateur() {
+    var id = $('#post_id').val();
+    var name = $('#userNameA1').val();
+    var prenom=$('#prenom1').val();
+    var adresse = $('#adresse1').val();
+    var age = $('#age1').val();
+    var sexe=$('#sexe1').val();
+    var civil=$('#civil1').val();
+    var phone=$('#phone1').val();
+    var national=$('#national1').val();
+    var categorie=$('#categorie1').val();
+    if(adresse.length>4 && age >18){
+      //var accompagne=$('#accompagne1').val();
+    let _url   = `miseajourcli`;
+     $.ajax({
+        url: _url,
+        type: "POST",
+        data: {
+          id : id,
+          nom: name,
+          prenom:prenom,
+          adresse: adresse,
+          age:age,
+          sexe:sexe,
+          civil:civil,
+          phone:phone,
+          national:national,
+          categorie:categorie
+       //   accompagne:accompagne
+        },
+        async: true,
+        success: function(data) {
+            if(data.code == 200)
+             {
+                $("#row_"+id+" td:nth-child(1)").html(name);
+                $("#row_"+id+" td:nth-child(2)").html( prenom); 
+                $("#row_"+id+" td:nth-child(3)").html( adresse); 
+                $("#row_"+id+" td:nth-child(4)").html( age); 
+                $("#row_"+id+" td:nth-child(5)").html( sexe); 
+                $("#row_"+id+" td:nth-child(6)").html( civil); 
+                $("#row_"+id+" td:nth-child(7)").html( phone); 
+                $("#row_"+id+" td:nth-child(8)").html( national); 
+                $("#row_"+id+" td:nth-child(9)").html( categorie); 
+
+               // $("#row_"+id+" td:nth-child(9)").html( accompagne); 
+                             
+                $('#userName').val('');
+                $("#prenom1").val('');
+                $("#adresse1").val('');
+                $("#age1").val('');
+                $("#sexe1").val('');
+                $("#civil1").val('');
+                $("#phone1").val('');
+                $("#national1").val('');
+                $("#categorie1").val('');
+               // $("#accompagne1").val('');               
+                $('#modifficationModal').modal('hide');
+             }
+        }
+      });
+    } else{
+      alert("Veuillez verifier les informations que vous avez entré !!!")
+      
+    }
+  }
+//ajouter un client
+  function ajoutUtilisateur() {
+  var name = $('#userNameA').val();
+  var prenom=$('#prenom').val();
+  var adresse = $('#adresse').val();
+  var age = $('#age').val();
+  var sexe=$('#sexe').val();
+  var civil=$('#civil').val();
+  var phone=$('#phone').val();
+  var national=$('#national').val();
+  var categorie=$('#categorie').val();
+  //var accompagne=$('#accompagne').val();
+  if(adresse.length>4 && age >18){
+    let _url     = `newone`;
+    $.ajax({
+    url: _url,
+    type: "POST",
+    data: {
+      nom: name,
+      prenom:prenom,
+      adresse: adresse,
+      age:age,
+      sexe:sexe,
+      civil:civil,
+      phone:phone,
+      national:national,
+      categorie:categorie
+      //accompagne:accompagne
+    },
+    async: true,
+  success: function(data) {
+    //let linkOne="'clientheberge',";
+    let linkTwo="/client/";
+    let numero=data.code.num;
+    let linkThree="/plusclient";
+    $(' #okay').prepend('<tr id="row_'+data.code.num+'"><td><strong>'+name.toUpperCase()+' </strong></td><td><strong>'+prenom+' </strong></td><td><strong>'+adresse+' </strong></td><td><strong>'+age+' </strong></td><td><strong>'+sexe+' </strong></td><td><strong>'+civil+' </strong></td><td><strong>'+phone+' </strong></td><td><strong>'+national+' </strong></td><td><strong>'+categorie+' </strong></td><td><strong><a href="javascript:void(0)" data-id="'+data.code.num+'" onclick="editPost(event.target)" class="btn btn-info"><span class="fa fa-pencil-square-o"></span></a>&nbsp;&nbsp;<a href="javascript:void(0)" data-id="'+data.code.num+'" class="btn btn-danger" onclick="deletePost(event.target)"><span class="fa fa-trash"></span></a> </strong></td><td><strong><a data-toggle="tooltip"  data-placement="top" title="Séjour" class="btn btn-success" href="'+linkTwo+numero+linkThree+'"><span class="fa fa-plus"></span></a> </strong></td></tr>');
+    console.log(data.code.num);
+  }
+  });
+  $('#okay1')[0].reset();
+  $("#formAdd").modal('hide');
+  } else{
+    alert("Veuillez verifier les informations que vous avez entré !!!")
+    
+  }
+                
+  }
+  //supprimer un client
+  function deletePost(event) {
+    let id  = $(event).data("id");
+    if(id>0){
+      let confirmDelete= confirm('Voulez-vous vraiment supprimer ce client ?');
+    if (confirmDelete===true)
+    {
+      let _url =`/client/${id}`;
+      $.ajax({
+        url: _url,
+        type: 'GET',
+        success: function(data) {
+          $("#row_"+id).remove();
+        }
+      });
+    }
+    }
+  }
+  </script>
+{% endblock %}

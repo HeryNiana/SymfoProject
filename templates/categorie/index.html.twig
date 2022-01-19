@@ -1,0 +1,189 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+{% if app.user %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+        <h2 id="plus" style="font-style: italic;font-family: Verdana, Geneva, Tahoma, sans-serif;"><strong>LISTE DES CATEGORIE CHAMBRES</strong></h2>         <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link btn btn-success"><i class="fa fa-plus-circle"></i>Nouveau catégorie <i class="fa fa-chevron-up"></i></a>
+          </li>
+         </ul>
+         <div class="clearfix"></div>
+       </div>
+        <div class="x_content">
+           <div class="formAdd">
+              <form method="post" action="" id="okay1">
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Type :</label>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <input type="text" class="form-control" name="passWordA" id="passWordA">
+                  </div>
+                </div>
+                <div class="ln_solid">
+                  <div class="form-group">
+                  <div class="col-md-6 offset-md-3">
+                    <button type="button" onclick="ajoutUtilisateur()" class="btn btn-primary">Ajouter</button>
+                    <button type="button" class="btn btn-danger" onclick="cancel_add()">Annuler</button>
+                  </div>
+                </div>
+                </div>
+              </form>
+           </div>
+                   <!-- /pour la modification  -->
+           <div class="modal fade" id="modifficationModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mise à jour d'une catégorie</h4>
+                  </div>
+                  <div class="modal-body">
+                      <form name="userForm" class="form-horizontal" method="get" action="">
+                         <input type="hidden" name="post_id" id="post_id">
+                          <div class="form-group">
+                              <label for="name" class="col-sm-3">Type :</label>
+                              <div class="col-sm-12">
+                                  <input type="text" class="form-control" id="passWord" name="passWord" placeholder="Adresse du client"  required="required">
+                                  <span id="passWordError" class="alert-message"></span>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-info" onclick="modifUtilisateur()">Modifier</button>
+                      <!-- <button type="submit" class="btn btn-primary">Enregistrer</button> -->
+                  </div>
+              </div>
+            </div>
+          </div><!--end of modal-->
+        </div>
+    </div>
+     <div class="row" style="clear: both;margin-top: 18px;">
+        <div class="col-12">
+          <table id="okay" class="table table-striped table-bordered" style="width:100%;text-align: center;">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for categorie in categories %}
+                <tr id="row_{{ categorie.id }}">
+                    <td>{{ categorie.type }}</td>
+                    <td>
+                      <a href="javascript:void(0)" data-id="{{ categorie.id }}" onclick="editPost(event.target)" class="btn btn-info"><span class="fa fa-pencil-square-o"></span></a>
+                      <a href="javascript:void(0)" data-id="{{ categorie.id }}" onclick="deletePost(event.target)" class="btn btn-danger"><span class="fa fa-trash"></span></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+       </div>
+    </div>
+    </div>
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+<script>
+  //editer une valeur
+  function cancel_add(){
+    $('#okay1')[0].reset();
+  }
+  function editPost(event) {
+    var id  = $(event).data("id");
+    let _url = `/categorie/${id} /edit`;
+    $('#passWordError').text('');
+    // alert(_url);
+    $.ajax({
+      url: _url,
+      type: "GET",
+      success: function(data) {
+          if(data.code==200) {
+            $("#post_id").val(data.client.id);
+            $("#passWord").val(data.client.adresse);
+            $("#modifficationModal").modal("show");
+          }
+      }
+    });
+  }
+  //modification d'un catégorie
+  function modifUtilisateur() {
+    var id = $('#post_id').val();
+    var adresse = $('#passWord').val();
+    if(adresse.length>5)
+    {
+     let _url   = `miseajourcateg`;
+     $.ajax({
+        url: _url,
+        type: "POST",
+        data: {
+          id : id,
+          adresse : adresse
+        },
+        async: true,
+        success: function(data)
+         {
+            if(data.code == 200)
+             {
+                $("#row_"+id+" td:nth-child(1)").html( adresse); 
+                             
+                $('#passWord').val('');
+                $('#modifficationModal').modal('hide');
+             }
+          }
+      });
+    }else{
+      alert("Veuillez verifier l'adresse que vous avez entré !!!")
+    }
+  }
+//ajouter un catégorie
+  function ajoutUtilisateur() {
+  var adresse = $('#passWordA').val();
+ // var adresse1 = $('#passWordB').val();
+ // var adress=adresse1.slice(0,-3);
+  if(adresse.length>5){
+    let _url     = `categorie_new`;
+    $.ajax({
+    url: _url,
+    type: "POST",
+    data: {
+      adresse: adresse
+    },
+    async: true,
+  success: function(data) {
+    $(' #okay').prepend('<tr id="row_'+data.code.num+'"><td>'+adresse+'</td><td><a href="javascript:void(0)" data-id="'+data.code.num+'" onclick="editPost(event.target)" class="btn btn-info"><span class="fa fa-pencil-square-o"></span></a><a href="javascript:void(0)" data-id="'+data.code.num+'" class="btn btn-danger" onclick="deletePost(event.target)"><span class="fa fa-trash"></span></a></td></tr>');
+    console.log(data.code.num);
+    //console.log(parseInt(adress));
+
+  }
+  });
+  $('#okay1')[0].reset();
+  }
+  else{
+    alert("Veuillez verifier l'adresse que vous avez entré !!!")
+  }             
+}
+  //supprimer un catégorie
+  function deletePost(event) {
+    let id  = $(event).data("id");
+    if(id>0){
+    let confirmDelete= confirm('Voulez-vous vraiment supprimer cette catégorie ?');
+    if (confirmDelete==true)
+    {
+      let _url = `/categorie/${id}`;
+        $.ajax({
+          url: _url,
+          type: 'GET',
+          success: function(data) {
+            $("#row_"+id).remove();
+          }
+        });
+      }
+  }
+  }
+  </script>
+{% endblock %}

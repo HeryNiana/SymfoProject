@@ -1,0 +1,54 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+{% if app.user %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+         <h2>Details </h2>
+         <ul class="nav navbar-right panel_toolbox">
+           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+           </li>
+         </ul>
+         <div class="clearfix"></div>
+       </div>
+        <div class="x_content">
+            <div class="formAdd">
+                <h1>Chambre numéro {{ chambre.codech }}</h1>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th rowspan="4"><img src="{{ asset('/uploads/'~chambre.photo) }}" alt="" width="250"/></th>
+                                <td>Capacité et Catégorie</td>
+                                <td>{{ chambre.capacite }}</td>
+                            </tr>
+                            <tr>
+                                <th>Statut</th>
+                                <td>{{ chambre.statut }}</td>
+                            </tr>
+                            <tr>
+                                <th>Prixjournalier</th>
+                                <td>{{ chambre.prixjournalier }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:center">
+                                    {% if chambre.statut=="occupe"   %} 
+                                    <a data-toggle="tooltip"  data-placement="top" title="Séjour terminé" class="btn btn-success" href="{{ path('chambremise', {'id': chambre.id}) }}"><span class="fa fa-check-circle"></span></a>
+                                     {% else %}
+                                     <a data-toggle="tooltip"  data-placement="top" title="Plus séjour" class="btn btn-info" href="{{ path('chambreheberge', {'id': chambre.id}) }}"><span class="fa fa-plus"></span></a>                    
+                                     {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+    <a class="btn btn-primary" href="{{ path('chambre_index') }}">Toutes les chambres</a>
+
+    <a data-toggle="tooltip"  data-placement="top" title="Modifier les informations" class="btn btn-info" href="{{ path('chambre_edit1', {'id': chambre.id}) }}"><i class=" fa fa-pencil"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endif %}
+{% endblock %}

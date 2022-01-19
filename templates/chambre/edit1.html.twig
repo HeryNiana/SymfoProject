@@ -1,0 +1,69 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+{% if app.user %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+         <h2>Modification des informations d'une chambre</h2>
+         <ul class="nav navbar-right panel_toolbox">
+           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+           </li>
+         </ul>
+         <div class="clearfix"></div>
+       </div>
+        <div class="x_content">
+            <div class="formAdd">
+                {{ form_start(form) }}
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Numéro de la chambre : <span style="color: red;"> *</span></label>
+                  <div class="col-md-4 col-sm-4">
+                  {{ form_row(form.codech)}}
+                  </div>
+                </div>
+              <div class="field item form-group">
+                <label class="col-form-label col-md-3 col-sm-3  label-align">Catégorie : <span style="color: red;"> *</span></label>
+                <div class="col-md-4 col-sm-4">
+                {{ form_row(form.categorie1id)}}
+                </div>
+              </div>
+              <div class="field item form-group">
+                <label class="col-form-label col-md-3 col-sm-3  label-align">Prix Journalier : <span style="color: red;"> *</span></label>
+                <div class="col-md-4 col-sm-4">
+                {{ form_row(form.prixjournalier)}}
+                </div>
+              </div>
+              <div class="field item form-group">
+                <label class="col-form-label col-md-3 col-sm-3  label-align">Capacité : <span style="color: red;"> *</span></label>
+                <div class="col-md-4 col-sm-4">
+                  {{ form_row(form.capacite)}}
+                  </div>
+              </div>
+              <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Femme de chambre : <span style="color: red;"> *</span></label>
+                  <div class="col-md-4 col-sm-4">
+                   {{ form_row(form.femmeid)}}
+                   </div>
+                </div>
+                <div class="modal fade" id="modifficationModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                            <div class="field item form-group">
+                              <label class="col-form-label col-md-3 col-sm-3  label-align">Choisir une nouvelle photo : <span style="color: red;"> *</span></label>
+                               {{ form_row(form.photo)}}
+                              </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            <button style="margin-left: 300px;" type="submit" class="btn btn-success">Mettre à jour </button>
+                            {{ form_end(form) }}
+                   <a class="btn btn-primary" href="{{ path('chambre_index') }}">Toutes les chambres</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endif %}
+{% endblock %}

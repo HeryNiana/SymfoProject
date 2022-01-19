@@ -1,0 +1,208 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+{% if app.user %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+         <h2 id="plus"></h2><strong>Modification  d'un hébergement</strong></h2>
+         <ul class="nav navbar-right panel_toolbox">
+           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+           </li>
+         </ul>
+       </div>
+        <div class="x_content">
+          <div class="formAdd">
+            <form method="post" action="{{path('modify_heberge')}}">
+              <div id="payement">
+                <div id="dealutClient"> 
+                  <div class="field item form-group">
+                  <input type="hidden" value="{{ heberge.id }}" name="id">
+                <label class="col-form-label col-md-3 col-sm-3  label-align">Noms du client :</label>
+                <input type="hidden" value="{{ heberge.id }}" name="id">
+                <div class="form-group col-md-6 col-sm-6 input-group">
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <select  class="form-control" name="numerocli" id="numerocli">
+                      <option value="okay"> {{ heberge.numcli.nom  }} {{ heberge.numcli.prenom }}</option>
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div id="updateClient"> 
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Noms du client :</label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <select  class="form-control selectpicker" data-live-search="true" name="numerocli" required="required">
+                      <option></option>
+                        {% for client in clients %}
+                        <option value="{{ client.id }}"> {{ client.nom  }} {{ client.prenom }}</option>
+                        {% endfor %}
+                        <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                      </select>
+                  </div>
+                </div>
+                </div>
+                <!-- Custom Theme Scripts 
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <input id="searchbox" autocomplete="off" onkeyup="findClient()" type="text" placeholder="" class="form-control search-query validate[required]" />
+              </div-->
+              <div id="defalutchambre">
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Numero de la chambre :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                    <select  class="form-control defaultokay1 " name="numeroch" id="numeroch" >
+                        <option value="okay1"> {{ heberge.numchambre.codech }}</option>
+                      </select>
+                  </div>
+                </div>
+              </div>
+              <div id="updateChambre">
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Numero de la chambre :</label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                    <select  class="form-control selectpicker okay22" data-live-search="true" required="required">
+                      <option></option>
+                        {% for chambre in chambres %}
+                        <option value="{{ chambre.id }}"> {{ chambre.codech }}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+              </div>
+              <div id="defalutDate">
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Date d'entrée :</label>
+                  <div class="form-group col-md-6 col-sm-6 input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" autocomplete="off" placeholder="{{ heberge.dateentre | date('d m Y H:i:s') }}"  class=" form-control dateOne" name="dateentre" id="dateentre">
+                  </div>
+                </div>
+              </div>
+                <div id="newDate">
+                  <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align">Date d'entrée :</label>
+                    <div class="form-group col-md-6 col-sm-6  input-group">
+                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      <input type="text" autocomplete="off"  class=" form-control dateTwo"  required="required">
+                    </div>
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Duré du séjour :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    <input type="number"  class="form-control"  placeholder="{{ heberge.nbjours }}" name="nbjrs" id="nbjrs" required="required">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Accompagné de :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    <input type="text"  class="form-control" placeholder="{{ heberge.compagne }}" name="compagne" id="compagne" >
+                  </div>
+                  <button type="button" onclick="ajoutHeberge()" class="btn btn-primary">Suivant</button>
+                </div>
+              </div>
+              <div id="payement2">
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Date de début du séjour :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" autocomplete="off"  class=" form-control" name="dateentreone" id="dateentreone" readonly="readonly">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Duré du séjour :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    <input type="number"  class="form-control" name="nbjrs1" id="nbjrs1" readonly="readonly">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Prix journalier de la chambre :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    <input type="number"  class="form-control" name="price" id="price" readonly="readonly">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Montant à payer :</label>
+                  <div class="form-group col-md-6 col-sm-6  input-group">
+                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    <input type="number"  class="form-control" name="montant" id="montant" readonly="readonly">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Mode de payement :<span style="color: red;"> *</span></label>
+                  <div class="form-group col-md-6 col-sm-6">
+                    <select  class="form-control" name="payer" id="sexe1" required="required">
+                      <option></option>
+                      <option value="Chèque">Chèque</option>
+                      <option value="Espèce">Espéce</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="ln_solid">
+                  <div class="form-group">
+                  <div class="col-md-6 offset-md-3">
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                    <a  class="btn btn-danger" href="{{ path('heberge_index') }}">Annuler</a>    
+                  </div>
+                </div>
+                </div>
+              </div>
+              </form>
+           </div>
+        </div>
+    </div>
+    </div>
+    {% endif %}
+    {% endblock %}
+    {% block javascripts %}
+<script>
+  
+   function ajoutHeberge(event) {
+    var numchambre = $('#numeroch').val();
+    var dateentre=$("#dateentre").val();
+    var nbjrs=$('#nbjrs').val();
+    if(nbjrs>0 && nbjrs.length<3){
+      let _url = `/chambre/${numchambre} /editprice`;
+    $('#userNameError').text('');
+    // alert(_url);
+    $.ajax({
+      url: _url,
+      type: "GET",
+      success: function(data) {
+        if(data.code==200) {
+            var montant=nbjrs*data.client.prix;
+            $("#montant").val(montant);
+            $("#nbjrs1").val(nbjrs);
+            $("#price").val(data.client.prix);
+            $("#dateentreone").val(dateentre);
+            $("#payement2").show();
+            $("#payement").hide();
+          }
+      }
+    });
+    } else{
+      alert("Veuillez vérifier la durée du séjour");
+    }
+    
+  }
+  function reinitialise(){
+    $('#okay1')[0].reset();
+    $("#payement").show();
+    $("#payement2").hide();
+
+  }
+  function selectCountry(val) {
+  $("#searchbox").val(val);
+  $("#suggesstion-box").hide();
+}
+</script>
+{% endblock %}
+
+    

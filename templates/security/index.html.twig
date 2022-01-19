@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}page de connexion!{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-3><div>
+    <div class="col-sm-6 col-md-6>
+    <div class="form-group">
+       <form method="post" action="{{ path('security_login') }}">
+          <label><strong>Adresse E-mail</strong></label><br>
+			    <span class="email-validation validation-error"></span>
+			    <div class="input-group">
+			      <span class="input-group-addon"><i class="fa fa-envelope-square"></i></span>
+			      <input type="text" id="email" name="_username" class="form-control" autocomplete="off" placeholder="Saisissez votre adresse email" required><br></div>
+			      <label><strong>Mot de passe</strong></label>
+          </div>
+			    <div class="input-group">
+				     <span class="input-group-addon"><i class="fa fa-key"></i></span>
+		         <input type="password" id="password" name="_password" class="form-control" placeholder="Saisissez votre mot de passe" required>
+          </div>
+
+             <br><button type="submit" class="btn btn-success">connexion&nbsp;&nbsp;<span><i class="fa fa-arrow-right"></i></span></button>
+	     	</form>
+        </div>
+   	</div>
+    <div class="col-sm-3 col-md-3><div>
+  </div>
+{% endblock %}

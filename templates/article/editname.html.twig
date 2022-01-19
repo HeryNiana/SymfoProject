@@ -1,0 +1,31 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+<div class="x_content">
+
+    <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><span class="fa fa-list-alt">&nbsp;&nbsp;</span>Général   </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><span class="fa fa-lock">&nbsp;&nbsp; </span> Sécutité </a>
+      </li>
+    </ul>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <p><i class="fa fa-user"> </i> &nbsp;&nbsp; A propos de l'utilisateur </p>
+                 <p> Noms : {{ app.user.username }}</p>
+                 <p>Adresse e-mail : {{ app.user.email }}</p>
+                 <a href="{{ path('editprofileone') }}" class="btn btn-primary"> <i class="fa    fa-user">&nbsp;</i> modifier l'information</a>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                   <a href="{{ path('editpassword') }}" class="btn btn-info"><i class="fa fa-lock" >&nbsp;</i> modifier le mot de passe</a>
+                </div>              
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+  </div>
+{% endblock %}

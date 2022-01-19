@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Exportation recette par chambre{% endblock %}
+{% block body %}
+<h3 style="font-family:Consolas,Stencil;color:#74D0F1;text-align: center;">HOTEL Moringa Tuléar</h3>
+<h5 style="font-family:Consolas,Stencil;color:#303030;text-align: center;">
+    <strong>Email : moringa@lerelais.mg - Télephone : 032 12 511 00 </strong>
+</h5>
+<p style="font-family:Consolas,Stencil;color:#303030;text-align: center;text-decoration: underline;">
+    <strong>  Liste du recette par chambre entre {{ date1 }} et {{ date2 }}</strong>
+</p>
+    <table style="width: 100%;text-align:center; border-collapse: collapse;" border="1">
+        <thead>
+            <tr>
+                <th>Numéro de la chambre</th>
+                <th>Capacité de la chambre</th>
+                <th>Prix journalier</th>
+                <th>Nombre d'hébergement par chambre</th>
+                <th>Recette</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for heberge in heberges %}
+            <tr>
+                <td>
+                    {{ heberge.codech }}
+                </td>
+                <td>  {{ heberge.capacite }} </td>
+                <td>
+                  {{ heberge.prixjournalier | number_format(0, ',', ' ')}}  Ar 
+              </td>
+              <td>
+                {{ heberge.numberheberge }}
+            </td>
+                <td>
+                    {{ heberge.montant | number_format(0, ',', ' ')  }} Ar
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4">Montant total :</td>
+                <td>{{ okay | number_format(0, ',', ' ') }} Ar</td>
+            </tr>
+</table>
+<p>Nombre d'hébergement : {{ hebergenumber }}</p>
+<p>Arrêté à la somme de :<strong>  {{ word }} Ariary</strong> </p>
+{% endblock %}

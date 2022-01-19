@@ -1,0 +1,146 @@
+{% extends 'article/home.html.twig' %}
+{% block body %}
+{% if app.user %}
+<div class="col-md-12 col-sm-12">
+    <div class="x_panel">
+       <div class="x_title">
+        <h2 id="plus" style="font-style: italic;font-family: Verdana, Geneva, Tahoma, sans-serif;"><strong>LISTE DES CHAMBRES  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></h2>
+         <h2 style="background-color: palegoldenrod;">{% for al in alert %}
+           {% if al.nombre >0%}
+           <div style="border-radius: 5px ;">
+            <a style="color: red;" href="{{ path('alert')}}"> <span class="fa fa-caret-square-o-up" aria-hidden="true"></span> Il y a {{ al.nombre }} chambre(s) dont la date d'hébergement est terminée !!!</a><br>
+          </div><hr>
+            {% endif %}
+          {% endfor %}
+         </h2>
+         <ul class="nav navbar-right panel_toolbox">
+           <li><a class="collapse-link btn btn-success" style="color: white;"><i class="fa fa-plus-circle"></i>&nbsp; Nouvelle chambre <i class="fa fa-chevron-up"></i></a>
+           </li>
+         </ul>
+       </div>
+        <div class="x_content">
+          <div style="background-color: slateblue; border-radius: 2px 2px solid;width: 300px;">
+          {% for message in app.flashes('modifier') %}
+          <p style="color: white;font-size: 14px;"><strong>{{ message }}</strong></p> <br>
+           {% endfor %}
+           {% for messages in app.flashes('heureinfo') %}
+          <p><strong> {{ messages }}</strong></p>
+           {% endfor %}
+          {% for message in app.flashes('codechambre') %}
+          <p style="color: red;"><strong>{{ message }}</strong></p> 
+           {% endfor %}
+          </div>
+            <div class="formAdd" style="align-content: center;" action="{{ path('chambre_index')}}">
+                {{ form_start(form)}}
+               <div class="field item form-group">
+                <label class="col-form-label col-md-3 col-sm-3  label-align"><span style="color: red;"> (*) </span> Obligatoire </label>
+                </div>
+                <div class="field item form-group">
+                <label class="col-form-label col-md-3 col-sm-3  label-align">Numéro de la chambre : <span style="color: red;"> *</span></label>
+                <div class="col-md-4 col-sm-4">
+                  {{ form_row(form.codech)}}</div>
+                </div>
+              <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Catégorie : <span style="color: red;"> *</span></label>
+                  <div class="col-md-4 col-sm-4">
+                    {{ form_row(form.categorie1id)}}
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Prix Journalier : <span style="color: red;"> *</span></label>
+                  <div class="col-md-4 col-sm-4">
+                    {{ form_row(form.prixjournalier)}}
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Capacité : <span style="color: red;"> *</span></label>
+                  <div class="col-md-4 col-sm-4">
+                    {{ form_row(form.capacite)}}
+                    </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="col-form-label col-md-3 col-sm-3  label-align">Photo : <span style="color: red;"> *</span></label>
+                  <div class="col-md-4 col-sm-4">
+                   {{ form_row(form.photo)}}
+                   </div>
+                 </div>
+                 <div class="field item form-group ">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align">Femme de chambre : <span style="color: red;"> *</span></label>
+                    <div class="col-md-4 col-sm-4">
+                      {{ form_row(form.femmeid)}}
+                     </div>
+                  </div>
+                  <hr>
+                  <div style="left: 400px;" class="field item form-group">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <button type="submit" class="btn btn-info">Ajouter </button>
+                      <button onclick="reset();"   class=" btn btn-danger">Annuler </button>
+                  </div>
+              {{ form_end(form)}}
+            </div>
+            </div>
+        <table id="okay" class="table table-striped table-bordered" style="width:100%;text-align: center;">
+            <thead>
+            <tr>
+                <th>Numero chambre</th>
+                <th>Prix journalier</th>
+                <th>Photos</th>
+                <th>Capacité</th>
+                <th>Catégorie</th>
+                <th>Statut actuelle</th>
+                <th>Modifications</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for chambre in chambres %}
+            <tr>
+                <td><br><br><strong> {{ chambre.codech }} </strong></td>
+                <td><br><br><strong> {{ chambre.prixjournalier | number_format(0, ',', ' ') }} </strong></td>
+                <td><br><br><strong> <img src="{{ asset('/uploads/'~chambre.photo) }}" alt="" width="130"/> </strong></td>
+                <td><br><br><strong> {{ chambre.capacite }} </strong></td>
+                <td><br><br><strong> {{ chambre.categorie1Id.type }} </strong></td>
+                <td><br><br><strong> {% if chambre.statut=="occupe"   %} 
+                  {{ "Occupée"  }} 
+                  {% else %}
+                   {{ "Disponible" }}
+                    {% endif %}
+                   </strong></td>
+                <td><br><br><strong> 
+                  <a href="{{ path('chambre_edit', {'id': chambre.id}) }}" class="btn btn-success" data-toggle="tooltip"  data-placement="top" title="Modifier la photo">
+                    <span class="fa fa-camera" aria-hidden="true"></span>
+                  </a>
+
+
+                    <a class="btn btn-primary" data-toggle="tooltip"  data-placement="top" title="Details" href="{{ path('chambre_show', {'id': chambre.id}) }}"><i class="fa fa-eye"></i></a>
+
+
+                    <a data-toggle="tooltip"  data-placement="top" title="Modifier les informations" class="btn btn-info" href="{{ path('chambre_edit1', {'id': chambre.id}) }}"><span class="fa fa-pencil-square-o"></span></a>
+                    
+                 </strong></td>
+                <td><br><br><strong> 
+                  {% if chambre.statut=="occupe"   %} 
+                  <a data-toggle="tooltip"  data-placement="top" title="Séjour terminé" class="btn btn-success" href="{{ path('chambremise', {'id': chambre.id}) }}"><span class="fa fa-check-circle"></span></a>
+                   {% else %}
+                   <a data-toggle="tooltip"  data-placement="top" title="Plus séjour" class="btn btn-info" href="{{ path('chambreheberge', {'id': chambre.id}) }}"><span class="fa fa-plus"></span></a>                    
+                   {% endif %}
+                   {% if chambre.statut=="disponible"   %} 
+                   <form method="post" action="{{ path('chambre_delete', {'id': chambre.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cette chambre définitivement ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ chambre.id) }}">
+                    <button class="btn btn-danger" data-toggle="tooltip"  data-placement="top" title="supprimer"><span class="fa fa-trash"></span></button>
+                </form>
+                {% endif %}
+                 </strong></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">no records found </strong></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+{% endif %}
+{% endblock %}

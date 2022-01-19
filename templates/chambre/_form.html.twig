@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+   <div class="field item form-group">
+    <label class="col-form-label col-md-3 col-sm-3  label-align">Photo :</label>
+     {{ form_row(form.photo)}}
+   </div>
+       <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

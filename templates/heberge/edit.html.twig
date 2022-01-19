@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Heberge{% endblock %}
+
+{% block body %}
+    <h1>Edit Heberge</h1>
+
+    {{ include('heberge/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('heberge_index') }}">back to list</a>
+
+    {{ include('heberge/_delete_form.html.twig') }}
+{% endblock %}

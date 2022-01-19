@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title %}Facturation{% endblock %}
+{% block body %}
+<h2 style="font-style: italic;color:#74D0F1;text-align: center;">HOTEL Moringa Tuléar</h2>
+<p style="font-family:Consolas,Stencil;color:#303030;text-align: center;">
+    <strong>Email : moringa@lerelais.mg - Télephone : 032 12 511 00 </strong>
+</p>
+<p style="font-family:Consolas,Stencil;color:#303030;text-align: center;">
+    <strong>    NIF   - Statistique N° 
+    </strong>
+</p>
+    <div>
+        <div style="margin-left:380 px;">
+            {% for client in clients%}
+            <p><span style="text-decoration: underline;"> facture : </span>{{ client.id }}</p>
+            <p><span style="text-decoration: underline;">Doit : </span>{{ client.nom }} {{ client.prenom }}</p>
+            <p><span style="text-decoration: underline;">Adresse : </span>{{ client.adresse }}</p>
+            <p><span style="text-decoration: underline;">Nationalité :</span> {{ client.national }}</p>
+            <p><span style="text-decoration: underline;">Date de départ du séjour :</span> {{ client.dateentre | date('d m Y') }}</p>
+            <p><span style="text-decoration: underline;">Date de sortie :</span> {{ client.datesortie | date('d m Y') }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <table style="width: 100%;text-align:center; border-collapse: collapse;" border="1">
+        <thead >
+            <tr>
+                <th>N° de la chambre</th>
+                <th>Prix journalier</th>
+                <th>Duré du séjour</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients%}
+                <tr>
+                    <td>{{ client.codech }} </td>
+                    <td>{{ client.prixjournalier | number_format(0, ',', ' ') }} Ar</td>
+                    <td>{{ client.nbjours }} jours</td>
+                    <td>{{ client.montant | number_format(0, ',', ' ') }} Ar</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3">Net à payer</td>
+                    <td>{{ okay | number_format(0, ',', ' ') }} Ar</td>
+                </tr>
+    </table>
+    <p>Arrêté à la somme de :<strong>  {{ word }} Ariary</strong> </p>
+    {% for client in clients%}
+    <p style="color:red;text-align:center">PAYE PAR : {{ client.payement }}</p>
+    {% endfor %}
+    <div style="width:100%;margin-left:100px;" >
+        <p>Le responable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Le client  </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SecurityController!{% endblock %}
+
+{% block body %}
+<body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+  {{ form_start(form)}}
+  {{ form_row(form.username,{'attr':{'placeholder':'Nom de l\'utilisateur'}})}}
+  {{ form_row(form.email)}}
+   {{ form_row(form.password)}}
+   {{ form_row(form.confirm_password)}}
+    <button type="submit" class="btn btn-info">Inscription </button>
+  {{ form_end(form)}}
+    <a href="{{path('home')}}" >Connection </a>
+   </section>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Gestion d'hébergement{% endblock %}</title>
+{% block stylesheets %}
+<link href="{{asset('vendors/date/jquery.datetimepicker.min.css')}}" rel="stylesheet">
+<link href="{{asset('vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{asset('vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+<link href="{{asset('vendors/nprogress/nprogress.css')}}" rel="stylesheet">
+<link href="{{asset('vendors/build/css/custom.css')}}" rel="stylesheet">
+<link href="{{asset('cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css')}}">
+<link href="{{asset('vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
+<link href="{{asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body class="nav-md">
+	 {% if app.user %}
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="#" class="site_title"><i class="fa fa-users"></i> <span>Gestion du séjour</span></a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="profile clearfix">
+              <div class="profile_pic">
+                <img src="{{ asset('images/logo_1.png') }}" alt="..." class="img-circle">
+              </div>
+            </div>
+            <br />
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> Chambres <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('chambre_index')}}">Gérer chambres</a></li>
+                      <li><a href="{{ path('categorie_index')}}">Gestion de catégorie chambres</a></li>
+                      <li><a href="{{ path('heberge_edit')}}">Recette par chambre entre deux dates</a></li>
+                      <li><a href="{{ path('menage_index')}}">Ménage des chambres</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-user"></i> Clients <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('client_index')}}">Gestion des clients </a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-header"></i> Hébergements  <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('heberge_index')}}">Gestion des hébergements</a></li>
+                      <li><a href="{{ path('heberge_list')}}">Liste des hébergements entre deux dates</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-female"></i> Employeurs  <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('femme_chambre_index')}}">Femmes de chambre</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-bar-chart-o"></i> Tableau de bord <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="#">Histogrammes</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                <hr>
+                <div class="menu_section">
+                <h2>&nbsp;&nbsp;</h2>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-star"></i> Le Relais Madagascar &nbsp;&nbsp;<i class="fa fa-star"></i></a>
+                  </li>
+                </ul>
+              </div>
+              </div>
+            </div>
+            <!-- /sidebar menu -->
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a href="{{ path('editprofile') }}" data-toggle="tooltip" data-placement="top" title="Paramèttre">
+                <span class="fa fa-user" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Moringa@lerelais.mg" href="htttps://www.gmail.com">
+                <span class="fa fa-envelope" aria-hidden="true"></span></a>
+              <a data-toggle="tooltip" data-placement="top" title="Facebook" href="https://web.facebook.com/moringatulear ">
+                <span class="fa fa-facebook-square" aria-hidden="true"></span></a>
+               <a data-toggle="tooltip" data-placement="top" title="Deconnecter" href="{{ path('security_logout')}} ">
+              <span class="fa fa-sign-out" aria-hidden="true"></span>
+            </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <div class="nav toggle">
+                  <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+                <nav class="nav navbar-nav">
+                <ul class="navbar-right">
+                  <strong><span id="date"></span></strong>
+              	 	<script type="text/javascript">
+              	 		var heure = document.getElementById('date');
+                    var markReel = setInterval(horloge, 1000);
+                 function horloge()
+                    {
+              	    var d = new Date();
+              	    heure.innerHTML = d.toLocaleTimeString();
+                   }
+              	</script>
+                  <li class="nav-item dropdown open" style="padding-left: 15px;">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false" style="border-color: indigo;">
+                      <img src="{{ asset('images/user.png') }}" alt="..." class="img-circle"> </a>
+                    <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item"  href="{{ path('editprofile') }}"> Profile utilisateur</a>
+                      <a class="dropdown-item"  href="{{path('security_logout')}}"><i class="fa fa-sign-out pull-right"></i>Deconnecter</a>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        <!-- /top navigation -->
+        <!-- page content -->
+        <div class="right_col" role="main">
+           {% block javascripts %}{% endblock %}
+                    {% block body %}
+                    {% endblock%}
+        </div>
+        <!-- /page content -->
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Application pour la gestiond'hébergement de l'hôtel MORINGA 
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+  </div>
+  {% else %}
+          <!-- Log-in -->
+  <div class="login" >
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+         	<div class="form-group">
+            <form method="POST" action="{{ path('home') }}">
+              <h1 style="color:#FDE9E0;"><i class="fa fa-lock"></i>&nbsp;S'authentifier </h1>
+              <div class="form-group input-group">
+                <input id="username" type="email" class="form-control" name="_username" required="required" autocomplete="email" autofocus placeholder="adresse e-mail">
+                <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
+              </div>
+              <div class="form-group input-group">
+              <input id="password" type="password" class="form-control" placeholder="Password" name="_password" required autocomplete="current-password">
+              <span class="fa fa-key form-control-feedback right" aria-hidden="true"></span>
+              </div>
+              <div>
+                <button class="btn btn-success"><i class="fa fa-check-circle"></i>&nbsp; Se connecter</button>
+              </div>
+              <div class="separator" style=" background-color: #80D0D0;border-radius: 5px;">
+                <br />
+                <div class="clearfix"></div>
+                <br />
+                <div>
+                  <h1 style="color:#FDE9E0;"><i class="fa fa-home"></i> Gestion d'hébergement  de </h1>
+                  <h1 style="color:#FDE9E0;"> l'HOTEL MORINGA</h1>
+                </div>
+                <hr>
+              </div>
+            </form>
+        </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</body>
+  <script src="{{ asset('vendors/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ asset('vendors/nprogress/nprogress.js')}}"></script>
+  <!-- validator -->
+  <script src="{{ asset('vendors/validator/multifield.js')}}"></script>
+  <script src="{{ asset('vendors/validator/validator.js')}}"></script>
+  <script src="{{ asset('vendors/date/jquery.datetimepicker.full.js')}}"></script>
+  <script src="{{ asset('vendors/build/js/custom.js')}}"></script>
+  <script src="{{ asset('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
+<!-- FastClick -->
+<script src="{{asset('vendors/fastclick/lib/fastclick.js')}}"></script>
+<!-- Custom Theme Scripts -->
+  <script src="{{ asset('vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ asset('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+  <script src="{{ asset('vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+  <script src="{{ asset('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
+  <script src="{{ asset('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
+  <script>
+    $("#payement2").hide();
+    $("#okay").DataTable({
+    "language": {
+        "sProcessing":"Traitement en cours",
+        "sLengthMenu": "<strong>Afficher par _MENU_ lignes</strong>",
+        "sZeroRecords": "Aucune résultats qui corrréspond à votre recherche",
+        "sEmptyTable" : "Aucune donné disponibles",
+        "sInfo": "<strong>Lignes _START_ à _END_ sur _TOTAL_</strong>",
+        "sInfoEmpty": "Aucune ligne affiché",
+        "sInfoFiltered" : "Filtrer un maximum de _MAX_",
+        "sInfoPostFix" : "",
+        "sSearch" : "<strong>Rechercher :</strong>",
+        "sUrl" : "",
+        "sInfoThousands": ",",
+        "sLoadingRecords" : "chargement...",
+        "oPaginate":{
+            "sFirst": "Premier","sLast":"Dernier","sNext":"<strong>Suivant</strong>","sPrevious":"<strong>Précédent</strong>"
+        },
+        "oAria":{
+            "sSortAscending": ": Trier par ordre croissant","sSortDescending": ":Trier par ordre décroissant"
+        }
+    }
+});
+  var validator = new FormValidator({ "events": ['blur', 'input', 'change'] }, document.forms[0]);
+document.forms[0].onsubmit = function (e) {
+var submit = true,
+validatorResult = validator.checkAll(this);
+console.log(validatorResult);
+return !!validatorResult.valid;
+};
+document.forms[0].onreset = function (e) {
+validator.reset();
+};
+$('.toggleValidationTooltips').change(function () {
+validator.settings.alerts = !this.checked;
+if (this.checked)
+$('form .alert').remove();
+}).prop('checked', false);
+  //$(".x_panel").hide();
+  $("#updateClient").hide();
+  $("#updateChambre").hide();
+  $("#newDate").hide();
+  $("#dealutClient").click(function(){
+    $(this).removeAttr('name','numerocli');
+		$(this).hide();
+		$("#updateClient").show();
+		});
+    $("#defalutchambre").click(function(){
+      //$(this).addClass('numeroch');
+      $(".defaultokay1").removeAttr('name','numeroch');
+      $(".defaultokay1").removeAttr('id','numeroch');
+      $(this).hide();
+			$("#updateChambre").show();
+			$(".okay22").attr('name','numeroch');
+      $(".okay22").attr('id','numeroch');
+
+		});
+    $("#dateentre").datetimepicker(
+  		{
+  			timepicker:false
+  		});
+    $("#defalutDate").click(function(){
+      //$(this).addClass('numeroch');
+      $(".dateOne").removeAttr('name','dateentre');
+      $(".dateOne").removeAttr('id','dateentre');
+      $(this).hide();
+			$("#newDate").show();
+			$(".dateTwo").attr('name','dateentre');
+      $(".dateTwo").attr('id','dateentre');
+      $(".dateTwo").datetimepicker(
+  		{
+  			timepicker:false
+  		});
+      $("#dateentre111").datetimepicker(
+  		{
+  			timepicker:false
+  		});
+      $("#dateentre111").datetimepicker(
+  		{
+  			timepicker:false
+  		});
+		});
+    $("#dateentre11").datetimepicker(
+  		{
+  			timepicker:false
+  		});
+      $("#dateentreeone").datetimepicker(
+  		{
+  			timepicker:false
+  		});
+
+</script>
+</html>
